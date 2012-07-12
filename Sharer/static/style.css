@@ -1,0 +1,108 @@
+body {
+	font-family: Arial, Verdana, Helvetica;
+	background-color: #EEE;
+	width: 800px;
+	margin: 0 auto;
+}
+
+h1, h2 {
+	color: #444466;
+}
+
+h1 {
+	font-size: 40px;
+	font-family: Georgia;
+	letter-spacing: 1px;
+}
+
+h2 {
+	font-size: 20px;
+}
+
+textarea, input {
+	font-family: Arial, Verdana, Helvetica;
+	font-size: 15px;
+}
+
+.page {
+	border: 3px solid lightgray;
+	margin: 1px;
+	padding: 10px;
+}
+
+.metanav {
+	border-bottom: 1px solid gray;
+	text-align: right;
+}
+
+.flash {
+	padding: 5px;
+	border: 1px solid #CCCCEE;
+	background-color: #DDEEFF;
+}
+
+.posts {
+	margin: 0;
+	border-top: 2px solid lightgray;
+}
+
+.post {
+	border-bottom: 2px solid lightgray;
+	border-radius: 2px;
+	padding: 10px;
+}
+
+.post li {
+	padding-top: -5px;
+	list-style: None;
+}
+
+.post .autor {
+	font-size: 13px;
+	margin-bottom: -20px;
+}
+
+.options {
+	margin: 0;
+}
+
+.options a {
+	color: red;
+	font-size: 14px;
+}
+
+.post a:hover {
+	color: black;
+}
+
+dd {
+	margin-bottom: 10px;
+}
+
+.button {
+	padding: 5px;
+	border: 1px solid gray;
+	border-radius: 2px;
+	background-color: lightgray;
+}
+
+.button:hover {
+	background-color: black;
+	color: white;
+}
+
+.form-errors, .erro {
+	margin-top: 5px;
+	border: 1px solid red;
+	background-color: #FFBBAA;
+	width: 400px;
+}
+
+.erro {
+	padding: 5px;
+}
+
+.form-errors li {
+	list-style: none;
+	font-size: 12px;
+}

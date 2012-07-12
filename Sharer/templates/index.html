@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block body %}
+	{% if session.logado %}
+		{% from "_htmlhelper.html" import render_field %}
+		<form action="{{ url_for('index') }}" method="post">
+			<dl>
+				{{ render_field(form.titulo) }}
+				{{ render_field(form.texto) }}
+			</dl>
+			<input type="submit" class="button" value="Share" />
+		</form>
+	{% endif %}
+	<ul class="posts">
+	{% for post in posts %}
+		<div class="post">
+			<li class="post-title"><h2>{{ post.titulo }}</h2></li>
+			{{ post.texto|safe }}<br />
+			<p class="autor">Postado por 
+				<a href="{{ url_for('usuario', usuario=post.usuario.usuario) }}">{{ post.usuario.nome }}</a>
+				 em {{ post.data_pub.strftime('%d-%m-%Y') }} as {{ post.data_pub.strftime('%H:%M')}}</p><br />
+			{% if session.logado and post.usuario.usuario == session.usuario %}
+				<div class="options">
+					<a href="{{ url_for('editar', post_id=post.id) }}">Editar</a> | 
+					<a href="{{ url_for('deletar', post_id=post.id) }}">Deletar</a>
+				</div>
+			{% endif %}
+		</div>
+	{% else %}
+		<li><em>Nenhum post até o momento.</em></li>
+	{% endfor %}
+	</ul>
+{% endblock %}

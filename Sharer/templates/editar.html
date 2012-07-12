@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+	<h2>Editando post</h2> 
+	{% if session.logado %}
+		{% from "_htmlhelper.html" import render_field %}
+		<form action="{{ url_for('editar', post_id=post.id) }}" method="post">
+			<dl>
+				<dt>Titulo</dt>
+				<dd><input type="text" name="titulo" value="{{ post.titulo }}" /></dd>
+				<dt>Texto</dt>
+				<dd><textarea cols="30" rows="4" name="texto">{{ post.texto }}</textarea></dd>
+			</dl>
+			<input type="submit" class="button" value="Alterar" />
+		</form>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}	
+	<h2>Cadastro</h2>
+	{% from "_htmlhelper.html" import render_field %}
+	<form action="/cadastro" method="post">
+		<dl>
+			{{ render_field(form.nome) }}
+			{{ render_field(form.email) }}
+			{{ render_field(form.usuario) }}
+			{{ render_field(form.senha) }}
+			{{ render_field(form.confirma) }}
+		</dl>
+		<input type="submit" class="button" value="Entrar" />
+		<a href="{{ url_for('login') }}">Voltar</a>
+	</form>
+{% endblock %}

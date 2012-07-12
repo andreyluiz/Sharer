@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+	{% if erro %}<p class="erro"><strong>Erro: </strong> {{ erro }}</p>{% endif %}
+	<h2>Login</h2>
+	{% from "_htmlhelper.html" import render_field %}
+	<form action="/login" method="post">
+		<dl>
+			{{ render_field(form.usuario) }}
+			{{ render_field(form.senha) }}
+		</dl>
+		<input type="submit" class="button" value="Entrar" />
+	</form>
+{% endblock %}
