@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
 # ------ Imports ------
 from flask import Flask, request, redirect, url_for, session, flash
-from flask_sqlalchemy import SQLAlchemy
-import datetime
 from flask.templating import render_template
+from flask_sqlalchemy import SQLAlchemy
 from forms import CadastroUsuario, NovoPost, LoginForm
+import datetime
 
 # ------ Instâncias da Aplicação ------
 app = Flask(__name__)
