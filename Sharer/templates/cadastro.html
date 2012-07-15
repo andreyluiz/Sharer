@@ -2,7 +2,7 @@
 {% block body %}	
 	<h2>Cadastro</h2>
 	{% from "_htmlhelper.html" import render_field %}
-	<form action="/cadastro" method="post">
+	<form action="{{ url_for('cadastro') }}" method="post">
 		<dl>
 			{{ render_field(form.nome) }}
 			{{ render_field(form.email) }}

@@ -10,7 +10,6 @@ import datetime
 app = Flask(__name__)
 app.config.from_pyfile('config.py', silent=True)
 db = SQLAlchemy(app)
-user = None
 
 # ------ Modelos ------
 class Usuario(db.Model):
@@ -60,12 +59,13 @@ def null(var1, var2):
 def index():
     form = NovoPost(request.form)
     posts = Post.query.order_by(Post.id.desc()).all()
+    
     if request.method == "POST" and form.validate():        
-        _usuario = None
+        usuario = None
         if 'usuarioid' in session:
-            _usuario = Usuario.query.filter_by(id = session['usuarioid']).first()
+            usuario = Usuario.query.filter_by(id=session.usuarioid).first()
         
-        post = Post(form.titulo.data, form.texto.data, _usuario)
+        post = Post(form.titulo.data, form.texto.data, usuario)
         
         db.session.add(post)
         db.session.commit()
@@ -77,31 +77,34 @@ def index():
 def login():
     form = LoginForm(request.form)
     erro = None
+    
     if request.method == "POST" and form.validate():
-        db_usuario = Usuario.query.filter_by(usuario=form.usuario.data).first()
+        usuario = Usuario.query.filter_by(usuario=form.usuario.data).first()
         
-        if db_usuario is None:            
+        if usuario is None:            
             erro = "Usuario nao encontrado."
         else:
-            if db_usuario.senha != form.senha.data:
+            if usuario.senha != form.senha.data:
                 erro = "Senha invalida."
             else:
-                session['logado'] = True
-                session['usuario'] = form.usuario.data
-                session['usuarioid'] = db_usuario.id
-                flash("Bem vindo %s." % db_usuario.nome)
+                session.logado = True
+                session.usuario = form.usuario.data
+                session.usuarioid = usuario.id
+                flash("Bem vindo %s." % usuario.nome)
                 return redirect(url_for("index"))
     return render_template("login.html", form=form, erro=erro)
     
 @app.route("/logout")
 def logout():
     session.pop('logado', None)
+    session.pop('usuario', None)
     session.pop('usuarioid', None)
     return redirect(url_for("login"))
 
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
     form = CadastroUsuario(request.form)
+    
     if request.method == "POST" and form.validate():                
         usuario = Usuario(form.nome.data, form.email.data, form.usuario.data, form.senha.data)
         
@@ -128,8 +131,9 @@ def editar(post_id):
 
 @app.route("/deletar/<int:post_id>")
 def deletar(post_id):
-    _post = Post.query.filter_by(id=post_id).first()
-    db.session.delete(_post)
+    post = Post.query.filter_by(id=post_id).first()
+    
+    db.session.delete(post)
     db.session.commit()
     
     return redirect(url_for("index"))        

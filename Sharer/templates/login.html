@@ -3,7 +3,7 @@
 	{% if erro %}<p class="erro"><strong>Erro: </strong> {{ erro }}</p>{% endif %}
 	<h2>Login</h2>
 	{% from "_htmlhelper.html" import render_field %}
-	<form action="/login" method="post">
+	<form action="{{ url_for('login') }}" method="post">
 		<dl>
 			{{ render_field(form.usuario) }}
 			{{ render_field(form.senha) }}
