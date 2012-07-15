@@ -54,9 +54,6 @@ def null(var1, var2):
         return var2
     else:
         return var1
-    
-def datetimeformat(value, format="%H:%M / %d-%m-%Y"):
-    return value.strftime(format)
 
 # ------ Métodos de Aplicação ------
 @app.route("/", methods=["GET", "POST"])
