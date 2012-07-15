@@ -3,14 +3,13 @@
 	<h2>Editando post</h2> 
 	{% if session.logado %}
 		{% from "_htmlhelper.html" import render_field %}
-		<form action="{{ url_for('editar', post_id=post.id) }}" method="post">
+		<form action="{{ url_for('editar', post_id=post_id) }}" method="post">
 			<dl>
-				<dt>Titulo</dt>
-				<dd><input type="text" name="titulo" value="{{ post.titulo }}" /></dd>
-				<dt>Texto</dt>
-				<dd><textarea cols="30" rows="4" name="texto">{{ post.texto }}</textarea></dd>
+				{{ render_field(form.titulo) }}
+				{{ render_field(form.texto) }}
 			</dl>
 			<input type="submit" class="button" value="Alterar" />
+			<a href="{{ url_for('index') }}">Cancelar</a>
 		</form>
 	{% endif %}
 {% endblock %}

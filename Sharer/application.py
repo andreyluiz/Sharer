@@ -116,18 +116,18 @@ def cadastro():
 
 @app.route("/editar/<int:post_id>", methods=["GET", "POST"])
 def editar(post_id):
-    _post = Post.query.filter_by(id=post_id).first()    
-    if request.method == "POST":
-        _titulo = request.form["titulo"]
-        _texto = request.form["texto"]
+    post = Post.query.filter_by(id=post_id).first()
+    form = NovoPost(request.form, obj=post)
+    
+    if request.method == "POST" and form.validate():
+        post.titulo = form.titulo.data
+        post.texto = form.texto.data
         
-        _post.titulo = _titulo
-        _post.texto = _texto
-        
+        db.session.add(post)
         db.session.commit()
         
         return redirect(url_for("index"))
-    return render_template("editar.html", post=_post)
+    return render_template("editar.html", form=form, post_id=post.id)
 
 @app.route("/deletar/<int:post_id>")
 def deletar(post_id):
@@ -140,7 +140,7 @@ def deletar(post_id):
 @app.route("/usuario/<usuario>")
 def usuario(usuario):
     _usuario = Usuario.query.filter_by(usuario=usuario).first()
-    return render_template("usuario.html", usuario=_usuario)
+    return render_template("usuario.html", usuario=_usuario)    
     
 # ------ Método principal ------
 if __name__ == '__main__':
