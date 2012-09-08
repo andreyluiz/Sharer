@@ -47,6 +47,18 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post %s>' % self.titulo
 
+class Up(db.Model):
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True)
+    post = db.relationship('Post', backref=db.backref('posts', lazy='dynamic'))
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    usuario = db.relationship('Usuario', backref=db.backref('pusuarios', lazy='dynamic'))
+    data_up = db.Column(db.DateTime)
+    
+    def __init__(self, post, usuario, data_up = None):
+        self.post = post
+        self.usuario = usuario
+        if data_up is None: self.data_up = datetime.datetime.utcnow()
+
 # ------ Métodos úteis ------
 def null(var1, var2):
     if var1 is None:
@@ -63,7 +75,7 @@ def index():
     if request.method == "POST" and form.validate():        
         usuario = None
         if 'usuarioid' in session:
-            usuario = Usuario.query.filter_by(id=session.usuarioid).first()
+            usuario = Usuario.query.filter_by(id=session["usuarioid"]).first()
         
         post = Post(form.titulo.data, form.texto.data, usuario)
         
@@ -87,9 +99,9 @@ def login():
             if usuario.senha != form.senha.data:
                 erro = "Senha invalida."
             else:
-                session.logado = True
-                session.usuario = form.usuario.data
-                session.usuarioid = usuario.id
+                session["logado"] = True
+                session["usuario"] = form.usuario.data
+                session["usuarioid"] = usuario.id
                 flash("Bem vindo %s." % usuario.nome)
                 return redirect(url_for("index"))
     return render_template("login.html", form=form, erro=erro)
